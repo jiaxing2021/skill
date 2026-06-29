@@ -1,5 +1,5 @@
 ---
-name: architecture-review-cn
+name: project-architecture-review-cn
 description: Use this skill when the user asks in Chinese to review or improve software architecture, module boundaries, scalability, maintainability, system design, or technical proposals.
 ---
 
