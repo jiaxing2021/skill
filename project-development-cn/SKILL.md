@@ -160,6 +160,8 @@ description: Use this skill when the user asks in Chinese for project developmen
 - 功能是否正确
 - 是否影响已有行为
 
+若测试策略不明确（新功能缺少测试用例设计、不确定覆盖范围），交给 project-test-cn 设计测试方案，而非在本 skill 内临时决定。
+
 如果无法验证，应明确说明：
 
 - 未验证原因
@@ -184,7 +186,7 @@ description: Use this skill when the user asks in Chinese for project developmen
 **验证**
 - ...
 
-**风险**
+**风险**（标注 Critical/High/Medium/Low，与 project-audit-cn 严重度分级一致）
 - ...
 ```
 
@@ -199,7 +201,7 @@ description: Use this skill when the user asks in Chinese for project developmen
 **验证**
 - ...
 
-**风险**
+**风险**（标注 Critical/High/Medium/Low）
 - ...
 ```
 
@@ -216,62 +218,8 @@ description: Use this skill when the user asks in Chinese for project developmen
 - 不为了未来需求提前设计复杂抽象。
 - 不为了局部优雅增加整体复杂度。
 - 保持实现简单、稳定、可维护、可验证。
----
-name: project-development-cn
-description: Use this skill when the user asks in Chinese for project development work involving existing code or an existing proposal, including implementing features, fixing bugs, refactoring, adding tests, reviewing code, validating an implementation plan, or turning a user's code/idea into a concrete coding plan. Prefer this skill when the user expects a plan first and confirmation before code edits.
----
 
-# 项目开发
-
-## 使用原则
-
-用于项目开发、代码修改、bug 修复、重构、测试和代码评审。默认先审视用户已有方案或代码，给出可执行方案，等用户确认后再改文件；只有用户明确要求“直接改”“直接实现”“不用确认”时才进入实现。
-
-## 工作流
-
-1. 先判定任务类型：实现、修 bug、重构、测试、review、方案校验。
-2. 先读用户给出的方案或代码；不足时用 `rg`、`rg --files`、文件树和局部文件片段定位上下文。
-3. 优先找入口、调用链、数据结构、测试和已有相似实现；避免全量读取 repo。
-4. 先输出开发方案：目标、现状判断、改动点、验证方式、风险。
-5. 等用户确认后再编辑文件，除非用户明确授权直接实现。
-6. 实现时保持小范围改动，复用项目已有模式，不做无关重构。
-7. 修改后运行最小相关验证；如果无法运行，说明原因和剩余风险。
-
-## 方案输出格式
-
-```markdown
-**判断**
-- ...
-
-**方案**
-1. ...
-2. ...
-
-**验证**
-- ...
-
-**风险**
-- ...
-```
-
-保持中等完整度：信息完整、结构清晰、避免废话。对关键判断给出依据；不确定项标明假设。
-
-## 实现后输出格式
-
-```markdown
-**变更**
-- ...
-
-**验证**
-- ...
-
-**风险**
-- ...
-```
-
-## 约束
-
-- 不要为了“优化”改动无关文件。
-- 不要覆盖用户未要求回退的改动。
-- 不要在证据不足时断言根因；区分事实、推断和假设。
-- 如果用户给的方案有明显问题，先指出失败模式，再给替代方案。
+**退出阈值**：以下任一情况必须停止并向用户提问，不得继续实施：
+- 修改涉及的核心调用链/数据结构未找到定义或用法（grep/搜索无结果）
+- 存在两种及以上互斥的实现方案，且缺乏依据判断优先级
+- 用户描述的预期行为与代码当前行为矛盾，且无法确认哪个是准确的

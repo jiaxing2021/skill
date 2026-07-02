@@ -1,6 +1,6 @@
 ---
-name: testing
-description: Validate code changes through appropriate testing, prevent regressions, and ensure changes are safe before completion.
+name: project-test-cn
+description: Use this skill when the user asks in Chinese to test code changes, design test strategy, write tests, prevent regressions, or validate changes are safe before completion.
 ---
 
 # Testing
@@ -253,3 +253,8 @@ Before finishing, confirm:
 - regressions are unlikely
 - test suite remains clean
 - confidence matches the risk level of the change
+
+**退出阈值**：以下任一情况必须停止并向用户提问：
+- 无法运行测试套件（环境缺失、依赖不可用），且无法确认变更是否安全
+- 变更涉及无现有测试覆盖的核心路径，且新增测试用例设计存在 2 种及以上互斥方案
+- 修改范围超出被测代码边界（改动会影响未在本次任务范围内的模块）

@@ -1,6 +1,6 @@
 ---
 name: project-debug-cn
-description: Use this skill when the user asks in Chinese to investigate runtime failures, crashes, production issues, incorrect behavior, test failures, or other debugging tasks.
+description: Use this skill when the user asks in Chinese to investigate runtime failures, crashes, production issues, incorrect behavior, test failures, or other debugging tasks. For English-language debugging requests, use debug-helper instead.
 ---
 
 # 问题定位
@@ -184,3 +184,8 @@ Hypothesis
 - 不凭经验猜测。
 - 不扩大修改范围。
 - 优先定位真正原因，而不是消除报错现象。
+
+**退出阈值**：以下任一情况必须停止并向用户提问：
+- 复现步骤缺失或无法在现有信息下复现
+- 定位到 2 个及以上可能根因，且现有日志/证据不足以排除其一
+- 涉及跨服务/跨进程问题，但缺少对方服务的日志或接口行为信息
